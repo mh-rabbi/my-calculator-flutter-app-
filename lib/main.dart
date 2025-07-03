@@ -48,6 +48,48 @@ class _CalculatorPageState extends State<CalculatorPage> {
     '+',
   ];
 
+  void _calculateResult() {
+    try {
+      Parser p = Parser();
+      Expression exp = p.parse(_expression);
+      ContextModel cm = ContextModel();
+      double eval = exp.evaluate(EvaluationType.REAL, cm);
+      setState(() {
+        _result = eval.toString();
+      });
+    } catch (e) {
+      setState(() {
+        _result = 'Error';
+      });
+    }
+  }
+
+  void _onButtonPressed(String label) {
+    setState(() {
+      if (label == 'C') {
+        _expression = '';
+        _result = '';
+      } else if (label == '=') {
+        _calculateResult();
+      } else {
+        _expression += label;
+      }
+    });
+  }
+
+  Widget _buildButton(String label) {
+    return ElevatedButton(
+      onPressed: () => _onButtonPressed(label),
+      style: ElevatedButton.styleFrom(
+        padding: const EdgeInsets.all(24.0),
+        backgroundColor: Colors.grey[200],
+        foregroundColor: Colors.black,
+        textStyle: const TextStyle(fontSize: 24),
+      ),
+      child: Text(label, style: const TextStyle(fontSize: 24)),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
