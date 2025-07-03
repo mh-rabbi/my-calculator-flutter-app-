@@ -74,6 +74,17 @@ class _CalculatorPageState extends State<CalculatorPage> {
               ),
             ),
           ),
+          GridView.builder(
+            shrinkWrap: true,
+            itemCount: _buttons.length,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 4,
+              childAspectRatio: 1.5,
+            ),
+            itemBuilder: (context, index) {
+              return _buildButton(_buttons[index]);
+            },
+          ),
         ],
       ),
     );
